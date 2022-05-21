@@ -1,10 +1,13 @@
+import os
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
 from werkzeug.exceptions import abort
+from werkzeug.utils import secure_filename
 
 from flaskr.auth import login_required
 from flaskr.db import get_db
+from flask import current_app
 
 bp = Blueprint('blog', __name__)
 
@@ -25,13 +28,23 @@ def create():
         title = request.form['title']
         body = request.form['body']
         error = None
-
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # If the user does not select a file, the browser submits an
+        # empty file without a filename.
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
         if not title:
             error = 'Title is required.'
 
         if error is not None:
             flash(error)
-        else:
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
             db = get_db()
             db.execute(
                 'INSERT INTO post (title, body, author_id)'
@@ -40,7 +53,6 @@ def create():
             )
             db.commit()
             return redirect(url_for('blog.index'))
-
     return render_template('blog/create.html')
 
 def get_post(id, check_author=True):
@@ -94,3 +106,8 @@ def delete(id):
     db.execute('DELETE FROM post WHERE id = ?', (id,))
     db.commit()
     return redirect(url_for('blog.index'))
+
+def allowed_file(filename):
+    ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'csv'}
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS

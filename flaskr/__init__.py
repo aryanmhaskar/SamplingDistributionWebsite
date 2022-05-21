@@ -1,7 +1,6 @@
 import os
 
-from flask import Flask
-
+from flask import Flask, flash, request, redirect, url_for
 
 def create_app(test_config=None):
     # create and configure the app
@@ -38,5 +37,9 @@ def create_app(test_config=None):
     from . import blog
     app.register_blueprint(blog.bp)
     app.add_url_rule('/', endpoint='index')
+
+
+    UPLOAD_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'uploads/')
+    app.config['UPLOAD_FOLDER'] = UPLOAD_PATH
 
     return app

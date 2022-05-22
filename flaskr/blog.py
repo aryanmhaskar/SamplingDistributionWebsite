@@ -108,6 +108,6 @@ def delete(id):
     return redirect(url_for('blog.index'))
 
 def allowed_file(filename):
-    ALLOWED_EXTENSIONS = {'txt', 'csv'}
+    ALLOWED_EXTENSIONS = {'txt', 'csv', 'xlsx'}
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS

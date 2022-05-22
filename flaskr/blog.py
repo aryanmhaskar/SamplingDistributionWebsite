@@ -10,6 +10,9 @@ from flaskr.auth import login_required
 from flaskr.db import get_db
 from flask import current_app
 
+from .tools import dataprocess
+from .tools import fileconverter
+
 bp = Blueprint('blog', __name__)
 
 @bp.route('/')
@@ -47,6 +50,9 @@ def create():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+            dataprocess.stdev_distribution(1, fileconverter.convert_xl(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'uploads/') + filename), num_samples, sample_size)
+            dataprocess.mean_distribution(1, fileconverter.convert_xl(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'uploads/') + filename), num_samples, sample_size)
+            dataprocess.distribution(1, fileconverter.convert_xl(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'uploads/') + filename))
             db = get_db()
             db.execute(
                 'INSERT INTO post (title, body, author_id, num_samples, sample_size)'
@@ -110,6 +116,6 @@ def delete(id):
     return redirect(url_for('blog.index'))
 
 def allowed_file(filename):
-    ALLOWED_EXTENSIONS = {'txt', 'csv', 'xlsx'}
+    ALLOWED_EXTENSIONS = {'csv', 'xlsx'}
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS

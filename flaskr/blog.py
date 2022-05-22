@@ -50,9 +50,6 @@ def create():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-            dataprocess.stdev_distribution(1, fileconverter.convert_xl(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'uploads/') + filename), num_samples, sample_size)
-            dataprocess.mean_distribution(1, fileconverter.convert_xl(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'uploads/') + filename), num_samples, sample_size)
-            dataprocess.distribution(1, fileconverter.convert_xl(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'uploads/') + filename))
             db = get_db()
             db.execute(
                 'INSERT INTO post (title, body, author_id, num_samples, sample_size)'
@@ -60,6 +57,10 @@ def create():
                 (title, body, g.user['id'], int(num_samples), int(sample_size))
             )
             db.commit()
+            post = get_db().execute('SELECT * FROM post ORDER BY ID DESC LIMIT 1').fetchone()
+            dataprocess.stdev_distribution(post['id'], fileconverter.convert_xl(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'uploads/') + filename), num_samples, sample_size)
+            dataprocess.mean_distribution(post['id'], fileconverter.convert_xl(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'uploads/') + filename), num_samples, sample_size)
+            dataprocess.distribution(post['id'], fileconverter.convert_xl(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'uploads/') + filename))
             return redirect(url_for('blog.index'))
     return render_template('blog/create.html')
 

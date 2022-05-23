@@ -10,7 +10,6 @@ cryptography==36.0.1
 cycler==0.11.0
 et-xmlfile==1.1.0
 Flask==2.1.2
--e git+https://github.com/aryanmhaskar/SamplingDistributionWebsite.git@31d66f425d55f8fc40797e722ee068c5776241f2#egg=flaskr
 fonttools==4.33.3
 gunicorn==20.1.0
 idna==3.3

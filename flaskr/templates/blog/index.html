@@ -18,7 +18,33 @@
         </div>
       </header>
       <p class="body">{{ post['body'] }}</p>
-      <img src="/static/test.png" id="image" name="image" alt="image not found"/>
+      <p id = "identify"> {{ post['id'] }} </p>
+      <table>
+        <tr>
+          <th>Data Distribution</th>
+          <th>Standard Deviation Distribution</th>
+          <th>Sample Mean Distribution</th>
+        </tr>
+        <tr>
+          <td> <img src="../../static/1dist.png" id="data_dist" name="image" alt="image not found" onload="updateImages()"/> </td>
+          <td> <img src="../../static/1stdev.png" id="stdev_data" name="image" alt="image not found" onload="updateImages()"/> </td>
+          <td> <img src="../../static/1mean.png" id="mean_data" name="image" alt="image not found" onload="updateImages()"/> </td>
+        </tr>
+      </table>
+
+      <script>
+        function updateImages() {
+          var id = document.getElementById("identify").innerHTML.toString();
+          id = id.slice(1, -1);
+          var stdev_graph_name = '../../static/' + id + 'stdev.png';
+          var dist_graph_name =  '../../static/' + id + 'dist.png';
+          var mean_graph_name = '../../static/' + id + 'mean.png';
+          document.getElementById("data_dist").src= (dist_graph_name);
+          document.getElementById("stdev_data").src=(stdev_graph_name);
+          document.getElementById("mean_data").src=(mean_graph_name);
+        };
+      </script>
+
     </article>
     {% if not loop.last %}
       <hr>

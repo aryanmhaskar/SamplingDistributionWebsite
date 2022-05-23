@@ -1,0 +1,1 @@
+waitress-serve --port=$PORT --call 'flaskr:create_app'

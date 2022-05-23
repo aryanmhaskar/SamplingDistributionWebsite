@@ -19,7 +19,7 @@ def mean_distribution(id, data:list, num_samples:int, sample_size:int):
     rs = np.array(rs)
     x_bar = rs.mean()
     plt.hist(x_bar);
-    plt.savefig(os.path.join(os.path.dirname(__file__), ("../static/" + str(id) + 'mean.png')))
+    plt.savefig(os.path.join(os.path.dirname(__file__), ("./static/" + str(id) + 'mean.png')))
 
 def stdev_distribution(id, data:list, num_samples:int, sample_size:int):
     new_data = []
@@ -31,14 +31,14 @@ def stdev_distribution(id, data:list, num_samples:int, sample_size:int):
     rs = np.array(rs)
     x_bar = rs.std()
     plt.hist(x_bar);
-    plt.savefig(os.path.join(os.path.dirname(__file__), ("../static/" + str(id) + 'stdev.png')))
+    plt.savefig(os.path.join(os.path.dirname(__file__), ("./static/" + str(id) + 'stdev.png')))
 
 def distribution(id, data:list):
     new_data = []
     for point in data:
         new_data.append(int(float(point)))
     plt.hist(new_data)
-    plt.savefig(os.path.join(os.path.dirname(__file__), ("../static/" + str(id) + 'dist.png')))
+    plt.savefig(os.path.join(os.path.dirname(__file__), ("./static/" + str(id) + 'dist.png')))
 
 def statistics_info(data:list):
     rs = np.array(data)

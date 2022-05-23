@@ -10,8 +10,8 @@ from flaskr.auth import login_required
 from flaskr.db import get_db
 from flask import current_app
 
-from .tools import dataprocess
-from .tools import fileconverter
+from . import dataprocess
+from . import fileconverter
 
 bp = Blueprint('blog', __name__)
 

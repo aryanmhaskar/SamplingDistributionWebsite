@@ -1,1 +1,1 @@
-web: export FLASK_APP=flaskr; web: flask init-db; web: flask run
+web: export FLASK_APP=flaskr; flask init-db; flask run

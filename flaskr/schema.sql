@@ -15,5 +15,6 @@ CREATE TABLE post (
   body TEXT NOT NULL,
   num_samples INTEGER NOT NULL,
   sample_size INTEGER NOT NULL,
+  info TEXT NOT NULL,
   FOREIGN KEY (author_id) REFERENCES user (id)
 );

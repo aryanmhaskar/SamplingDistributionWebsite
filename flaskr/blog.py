@@ -19,7 +19,7 @@ bp = Blueprint('blog', __name__)
 def index():
     db = get_db()
     posts = db.execute(
-        'SELECT p.id, title, body, created, author_id, username, num_samples, sample_size'
+        'SELECT p.id, title, body, created, author_id, username, num_samples, sample_size, info'
         ' FROM post p JOIN user u ON p.author_id = u.id'
         ' ORDER BY created DESC'
     ).fetchall()
@@ -50,11 +50,12 @@ def create():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+            info = dataprocess.statistics_info(fileconverter.convert_xl(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'uploads/') + filename))
             db = get_db()
             db.execute(
-                'INSERT INTO post (title, body, author_id, num_samples, sample_size)'
-                ' VALUES (?, ?, ?, ?, ?)',
-                (title, body, g.user['id'], int(num_samples), int(sample_size))
+                'INSERT INTO post (title, body, author_id, num_samples, sample_size, info)'
+                ' VALUES (?, ?, ?, ?, ?, ?)',
+                (title, body, g.user['id'], int(num_samples), int(sample_size), info)
             )
             db.commit()
             post = get_db().execute('SELECT * FROM post ORDER BY ID DESC LIMIT 1').fetchone()
@@ -66,7 +67,7 @@ def create():
 
 def get_post(id, check_author=True):
     post = get_db().execute(
-        'SELECT p.id, title, body, created, author_id, username, num_samples, sample_size'
+        'SELECT p.id, title, body, created, author_id, username, num_samples, sample_size, info'
         ' FROM post p JOIN user u ON p.author_id = u.id'
         ' WHERE p.id = ?',
         (id,)

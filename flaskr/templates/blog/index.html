@@ -14,11 +14,12 @@
         <div>
           <h1>{{ post['title'] }}</h1>
           <div class="about">by {{ post['username'] }} on {{ post['created'].strftime('%Y-%m-%d') }}</div>
-          <div class="stat_info">contains {{post['num_samples']}} samples of {{post['sample_size']}} size </div>
+          <div class="stat_info">contains {{post['num_samples']}} trials of {{post['sample_size']}} size </div>
         </div>
       </header>
       <p class="body">{{ post['body'] }}</p>
       <p id = "identify"> {{ post['id'] }} </p>
+      <p class="body"> {{ post['info'] }} </p>
       <table>
         <tr>
           <th>Data Distribution</th>

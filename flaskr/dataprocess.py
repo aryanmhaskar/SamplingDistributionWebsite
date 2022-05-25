@@ -41,9 +41,14 @@ def distribution(id, data:list):
     plt.savefig(os.path.join(os.path.dirname(__file__), ("./static/" + str(id) + 'dist.png')))
 
 def statistics_info(data:list):
-    rs = np.array(data)
-    return f"""The mean of the dataset is: {rs.mean()}
-    The standard deviation of the dataset is: {rs.std()} 
-    The max of the dataset is: {rs.max()}
-    The min of the dataset is: {rs.min()}
-    The range of the dataset is: {rs.max() - rs.min()} """
+    for i in range(0, len(data)):
+        data[i] = float(data[i])
+    total = 0;
+    for num in data:
+        total += float(num)
+    mean = total/len(data)
+    return f"""The mean of the dataset is: {mean}
+    The standard deviation of the dataset is: {statistics.pstdev(data)} 
+    The max of the dataset is: {max(data)}
+    The min of the dataset is: {min(data)}
+    The range of the dataset is: {max(data) - min(data)} """

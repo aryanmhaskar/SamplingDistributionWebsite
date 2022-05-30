@@ -95,8 +95,8 @@ class Data_Processor:
         for num in data:
             total += float(num)
         mean = total/len(data)
-        return f"""The mean of the dataset is: {mean}
-        The standard deviation of the dataset is: {statistics.pstdev(data)} 
-        The max of the dataset is: {max(data)}
-        The min of the dataset is: {min(data)}
-        The range of the dataset is: {max(data) - min(data)} """
+        return f"""The true mean of the dataset is: {mean}
+        The true standard deviation of the dataset is: {statistics.pstdev(data)} 
+        The true max of the dataset is: {max(data)}
+        The true min of the dataset is: {min(data)}
+        The true range of the dataset is: {max(data) - min(data)} """

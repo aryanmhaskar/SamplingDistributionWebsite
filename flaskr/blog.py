@@ -59,9 +59,9 @@ def create():
             )
             db.commit()
             post = get_db().execute('SELECT * FROM post ORDER BY ID DESC LIMIT 1').fetchone()
-            dataprocess.stdev_distribution(post['id'], fileconverter.convert_xl(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'uploads/') + filename), num_samples, sample_size)
-            dataprocess.mean_distribution(post['id'], fileconverter.convert_xl(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'uploads/') + filename), num_samples, sample_size)
-            dataprocess.distribution(post['id'], fileconverter.convert_xl(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'uploads/') + filename))
+
+            dp = dataprocess.Data_Processor(post['id'], fileconverter.convert_xl(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'uploads/') + filename), num_samples, sample_size)
+            dp.distribution(post['id'], fileconverter.convert_xl(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'uploads/') + filename))
             return redirect(url_for('blog.index'))
     return render_template('blog/create.html')
 

@@ -50,7 +50,7 @@ def create():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-            info = dataprocess.statistics_info(fileconverter.convert_xl(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'uploads/') + filename))
+            info = dataprocess.Data_Processor.statistics_info(fileconverter.convert_xl(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'uploads/') + filename))
             db = get_db()
             db.execute(
                 'INSERT INTO post (title, body, author_id, num_samples, sample_size, info)'

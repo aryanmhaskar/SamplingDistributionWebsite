@@ -24,17 +24,17 @@ class Data_Processor:
         rs = []
         for i in range(int(num_samples)):
             thing = np.random.choice(new_data, int(sample_size), replace=True)
-            amogus = [("Trial" + i)]
+            amogus = [("Trial" + str(i))]
             amogus.append(thing)
             rs.append(thing)
-            self.whole_data(amogus)
+            self.whole_data.append(amogus)
         
         rs = np.array(rs)
 
         count = 1
         headers = [""]
         for amongus in rs:
-            headers.append("Trial" + count)
+            headers.append("Trial" + str(count))
             count += 1
         self.summary_data.append(headers)
 
@@ -43,7 +43,8 @@ class Data_Processor:
         named_means = ["Mean"]
         for sub in rs:
             means.append(sub.mean())
-        self.summary_data.append(named_means.append(means))
+        named_means.append(means)
+        self.summary_data.append(named_means)
         means = np.array(means)
         plt.hist(means);
         plt.savefig(os.path.join(os.path.dirname(__file__), ("./static/" + str(id) + 'mean.png')))
@@ -53,7 +54,8 @@ class Data_Processor:
         named_stdevs = ["Standard Deviation"]
         for sub in rs:
             stdvs.append(sub.std())
-        self.summary_data(named_stdevs.append(stdvs))
+        named_stdevs.append(stdvs)
+        self.summary_data.append(named_stdevs)
         stdvs = np.array(stdvs)
         plt.hist(stdvs);
         plt.savefig(os.path.join(os.path.dirname(__file__), ("./static/" + str(id) + 'stdev.png')))
@@ -63,16 +65,19 @@ class Data_Processor:
         named_ranges = ["Range"]
         for sub in rs:
             ranges.append(sub.max() - sub.min())
-        self.summary_data(named_ranges.append(ranges))
+        named_ranges.append(ranges)
+        self.summary_data.append(named_ranges)
         ranges = np.array(ranges)
         plt.hist(ranges);
         plt.savefig(os.path.join(os.path.dirname(__file__), ("./static/" + str(id) + 'range.png')))
 
-        with open('/uploads/summary' + str(id) + '.csv','wb') as myfile:
+        print(self.summary_data)
+
+        with open('summary' + str(id) + '.csv','w') as myfile:
             wr = csv.writer(myfile) #, quoting=csv.QUOTE_ALL)
             wr.writerows(self.summary_data)
 
-        with open('/uploads/all' + str(id) + '.csv','wb') as myfile:
+        with open('all' + str(id) + '.csv','w') as myfile:
             wr = csv.writer(myfile) #, quoting=csv.QUOTE_ALL)
             wr.writerows(self.whole_data)
 
@@ -83,7 +88,7 @@ class Data_Processor:
         plt.hist(new_data)
         plt.savefig(os.path.join(os.path.dirname(__file__), ("./static/" + str(id) + 'dist.png')))
 
-    def statistics_info(self, data:list):
+    def statistics_info(data:list):
         for i in range(0, len(data)):
             data[i] = float(data[i])
         total = 0;
@@ -95,5 +100,3 @@ class Data_Processor:
         The max of the dataset is: {max(data)}
         The min of the dataset is: {min(data)}
         The range of the dataset is: {max(data) - min(data)} """
-
-Data_Processor.mean_distribution(1, [3, 4, 5, 2.0, 4.5, 6.5], 2, 2);

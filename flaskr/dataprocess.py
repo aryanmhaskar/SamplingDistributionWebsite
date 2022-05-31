@@ -80,11 +80,11 @@ class Data_Processor:
         plt.hist(ranges);
         plt.savefig(os.path.join(os.path.dirname(__file__), ("./static/" + str(id) + 'range.png')))
 
-        with open('summary' + str(id) + '.csv','w') as myfile:
+        with open(os.path.join(os.path.dirname(__file__), ('./uploads/summary' + str(id) + '.csv')),'w') as myfile:
             wr = csv.writer(myfile) #, quoting=csv.QUOTE_ALL)
             wr.writerows(self.summary_data)
 
-        with open('all' + str(id) + '.csv','w') as myfile:
+        with open(os.path.join(os.path.dirname(__file__), ('./uploads/all' + str(id) + '.csv')),'w') as myfile:
             wr = csv.writer(myfile) #, quoting=csv.QUOTE_ALL)
             wr.writerows(self.whole_data)
 

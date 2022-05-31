@@ -24,8 +24,9 @@ class Data_Processor:
         rs = []
         for i in range(int(num_samples)):
             thing = np.random.choice(new_data, int(sample_size), replace=True)
-            amogus = [("Trial" + str(i))]
-            amogus.append(thing)
+            amogus = [("Trial" + str(i + 1))]
+            for item in thing:
+                amogus.append(item)
             rs.append(thing)
             self.whole_data.append(amogus)
         
@@ -43,7 +44,9 @@ class Data_Processor:
         named_means = ["Mean"]
         for sub in rs:
             means.append(sub.mean())
-        named_means.append(means)
+        for item in means:
+            named_means.append(item)
+        
         self.summary_data.append(named_means)
         means = np.array(means)
         plt.hist(means);
@@ -54,7 +57,10 @@ class Data_Processor:
         named_stdevs = ["Standard Deviation"]
         for sub in rs:
             stdvs.append(sub.std())
-        named_stdevs.append(stdvs)
+
+        for item in stdvs:
+            named_stdevs.append(item)
+
         self.summary_data.append(named_stdevs)
         stdvs = np.array(stdvs)
         plt.hist(stdvs);
@@ -65,13 +71,14 @@ class Data_Processor:
         named_ranges = ["Range"]
         for sub in rs:
             ranges.append(sub.max() - sub.min())
-        named_ranges.append(ranges)
+    
+        for item in ranges:
+            named_ranges.append(item)
+
         self.summary_data.append(named_ranges)
         ranges = np.array(ranges)
         plt.hist(ranges);
         plt.savefig(os.path.join(os.path.dirname(__file__), ("./static/" + str(id) + 'range.png')))
-
-        print(self.summary_data)
 
         with open('summary' + str(id) + '.csv','w') as myfile:
             wr = csv.writer(myfile) #, quoting=csv.QUOTE_ALL)

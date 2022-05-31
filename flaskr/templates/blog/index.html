@@ -22,14 +22,18 @@
       <p class="body"> {{ post['info'] }} </p>
       <table>
         <tr>
-          <th>Data Distribution</th>
+          <th>Range Distribution</th>
           <th>Standard Deviation Distribution</th>
-          <th>Sample Mean Distribution</th>
+          <th>Difference of Means</th>
         </tr>
         <tr>
-          <td> <img src="../../static/1dist.png" id="data_dist" name="image" alt="image not found" onload="updateImages()" width="300" height="300"/> </td>
+          <td> <img src="../../static/1range.png" id="data_range" name="image" alt="image not found" onload="updateImages()" width="300" height="300"/> </td>
           <td> <img src="../../static/1stdev.png" id="stdev_data" name="image" alt="image not found" onload="updateImages()" width="300" height="300"/> </td>
           <td> <img src="../../static/1mean.png" id="mean_data" name="image" alt="image not found" onload="updateImages()" width="300" height="300"/> </td>
+        </tr>
+        <tr>
+          <td> True Distribution: </td>
+          <td> <img src="../../static/1dist.png" id="data_dist" name="image" alt="image not found" onload="updateImages()" width="300" height="300"/> </td>
         </tr>
       </table>
 
@@ -38,11 +42,13 @@
           var id = document.getElementById("identify").innerHTML.toString();
           id = id.slice(1, -1);
           var stdev_graph_name = '../../static/' + id + 'stdev.png';
-          var dist_graph_name =  '../../static/' + id + 'dist.png';
+          var range_graph_name =  '../../static/' + id + 'range.png';
           var mean_graph_name = '../../static/' + id + 'mean.png';
-          document.getElementById("data_dist").src= (dist_graph_name);
+          var dist_graph_name = '../../static/' + id + 'dist.png';
+          document.getElementById("data_range").src= (range_graph_name);
           document.getElementById("stdev_data").src=(stdev_graph_name);
           document.getElementById("mean_data").src=(mean_graph_name);
+          document.getElementById("data_dist").src=(dist_graph_name);
         };
       </script>
 

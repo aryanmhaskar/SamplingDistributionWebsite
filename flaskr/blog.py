@@ -8,15 +8,29 @@ from werkzeug.utils import secure_filename
 
 from flaskr.auth import login_required
 from flaskr.db import get_db
+from flaskr.db import init_db
 from flask import current_app
 
 from . import dataprocess
 from . import fileconverter
+from flask import send_from_directory
 
 bp = Blueprint('blog', __name__)
 
 @bp.route('/')
 def index():
+    db = get_db()
+    posts = db.execute(
+        'SELECT p.id, title, body, created, author_id, username, num_samples, sample_size, info'
+        ' FROM post p JOIN user u ON p.author_id = u.id'
+        ' ORDER BY created DESC'
+    ).fetchall()
+    return render_template('blog/index.html', posts=posts)
+
+@bp.route('/reset')
+@login_required
+def reset():
+    init_db()
     db = get_db()
     posts = db.execute(
         'SELECT p.id, title, body, created, author_id, username, num_samples, sample_size, info'
@@ -64,6 +78,23 @@ def create():
             dp.distribution(post['id'], fileconverter.convert_xl(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'uploads/') + filename))
             return redirect(url_for('blog.index'))
     return render_template('blog/create.html')
+
+
+@bp.route('/uploads/<path:filename>', methods=['GET', 'POST'])
+@login_required
+def download_all(filename):
+    post = get_db().execute('SELECT * FROM post ORDER BY ID DESC LIMIT 1').fetchone()
+    all = "all" + str(post['id']) + ".csv"
+    print(f"tried to send {all}")
+    return send_from_directory(current_app.config['UPLOAD_FOLDER'], filename)
+
+@bp.route('/uploads/<path:filename>', methods=['GET', 'POST'])
+@login_required
+def download_summary(filename):
+    post = get_db().execute('SELECT * FROM post ORDER BY ID DESC LIMIT 1').fetchone()
+    summary = "summary" + str(post['id']) + ".csv"
+    print(f"tried to send {summary}")
+    return send_from_directory(current_app.config['UPLOAD_FOLDER'], filename)
 
 def get_post(id, check_author=True):
     post = get_db().execute(

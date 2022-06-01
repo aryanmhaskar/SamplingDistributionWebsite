@@ -4,6 +4,7 @@
   <h1>{% block title %}Previous Statistics{% endblock %}</h1>
   {% if g.user %}
     <a class="action" href="{{ url_for('blog.create') }}">New</a>
+    <a class="action" href="{{ url_for('blog.reset') }} ">Reset</a>
   {% endif %}
 {% endblock %}
 
@@ -18,7 +19,11 @@
         </div>
       </header>
       <p class="body">{{ post['body'] }}</p>
-      <p id = "identify"> {{ post['id'] }} </p>
+      <p id = "identify" style="color:white"> {{ post['id'] }} </p>
+      <p>
+        <a href="{{ url_for('blog.download_all', filename=('all' + post['id']|string + '.csv')) }}">Download All</a>
+        <a href="{{ url_for('blog.download_summary', filename=('summary' + post['id']|string + '.csv')) }}">Download Summary</a>
+      </p>
       <p class="body"> {{ post['info'] }} </p>
       <table>
         <tr>
@@ -36,7 +41,6 @@
           <td> <img src="../../static/1dist.png" id="data_dist" name="image" alt="image not found" onload="updateImages()" width="300" height="300"/> </td>
         </tr>
       </table>
-
       <script>
         function updateImages() {
           var id = document.getElementById("identify").innerHTML.toString();

@@ -6,6 +6,8 @@ import statistics
 from scipy import stats
 from scipy.stats import kurtosis, skew
 import seaborn as sns
+import matplotlib as mpl
+mpl.use('Agg')
 import matplotlib.pyplot as plt
 import os
 import csv

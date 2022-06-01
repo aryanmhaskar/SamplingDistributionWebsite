@@ -17,13 +17,16 @@ def convert_csv(filename):
     with open(filename, 'r') as csvfile:
         datareader = csv.reader(csvfile)
         for row in datareader:
-            try:
-                data.append(row[0])
-            except:
-                data.append(row)
+            for item in row:
+                try:
+                    data.append(float(item))     
+                except:
+                    print()      
     return data
 
 def convert_xl(filename):
+    if (filename[-3:] == "csv"):
+        convert_csv(filename)
     read_file = pd.read_excel(filename)
     read_file.to_csv("converted.csv", index = None, header=True)
     return convert_csv("converted.csv")
